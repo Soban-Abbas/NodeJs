@@ -1,0 +1,27 @@
+ body {
+            padding: 0px;
+            margin: 0px;
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+
+        .nav_ul {
+            padding: 0px;
+            margin: 0px;
+            background: #b54d4d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 2.5rem;
+
+        }
+
+        .nav_ul>li>a {
+            padding: 2rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav_ul>li {
+            text-decoration: none;
+        }
