@@ -1,24 +1,26 @@
-const express=require("express");
-const path=require('path')
-const routes=express.Router();
+const path = require('path');
 
-//in server file where we are  get admin req we added path admin so here path will
-//be /admin/all-products
-routes.get('/all-products',(req,res,next)=>{
-    console.log("in all-product middlewere");
-    res.sendFile(path.join(__dirname,"../","views","admin.html"));
-})
-//same here /admin/added
-routes.post('/added',(req,res,next)=>{
-    console.log("in a added middlewere");
-    res.redirect("/all-products");
+const express = require('express');
 
-})
-// /admin/add-products
-routes.get('/add-products',(req,res,next)=>{
-    console.log("in a add-product middlewere");
-    res.sendFile(path.join(__dirname,"../","views","adminAddProduct.html"));;
+const rootDir = require('../util/rootPath');
 
+const router = express.Router();
+
+const products = [];
+
+// /admin/add-product => GET
+router.get('/add-product', (req, res, next) => {
+  res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
 });
 
-module.exports=routes
+// /admin/add-product => POST
+router.post('/add-product', (req, res, next) => {
+  npm 
+  products.push(req.body);
+  res.redirect('/');
+});
+
+module.exports={
+  route:router,
+  products:products
+}
