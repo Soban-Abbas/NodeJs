@@ -1,8 +1,9 @@
 const express=require("express");
+const path=require('path')
 const routes=express.Router();
 routes.get('/',(req,res,next)=>{ 
     console.log('middlewere /');
-    res.send("<h1>Home <h2>Products added by admin</h2> </h1>");
+    res.sendFile(path.join(__dirname,'../','views','user.html'));
 
 })
 module.exports=routes;
