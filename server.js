@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended:true}))// Middleware for parsing URL-enc
 app.use(shopRoute);
 app.use('/admin',adminRoute.route);
 app.use('/',(req,res,next)=>{
-    res.sendFile(path.join(rootPath,'/views','/404.html'));
+    res.render("404",{url:req.url});
 });
 
 app.listen(3000);

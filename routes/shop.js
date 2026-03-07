@@ -8,7 +8,12 @@ const router = express.Router();
 
 router.get('/', (req, res, next) => {
   console.log(adminFile.products);
-  res.render("shop");
+  res.render("shop",
+    {
+      productArray:adminFile.products,
+      pageTitle:"My Shop"
+    }
+  );
 });
 
 module.exports = router;
