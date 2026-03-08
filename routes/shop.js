@@ -12,7 +12,7 @@ router.get('/', (req, res, next) => {
     {
       productArray:adminFile.products,
       pageTitle:"My Shop",
-      url:req.url
+      url:"/"
     }
   );
 });

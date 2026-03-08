@@ -4,8 +4,11 @@ const shopRoute=require("./routes/shop.js")
 const adminRoute=require("./routes/admin.js");
 const bodyParser=require("body-parser")
 const path=require("path");
-app.set('view engine' , 'pug');
-app.set('views','views');
+
+app.set('view engine','ejs');
+app.set("views","views");
+// app.set('view engine' , 'pug'); ya pug use krne ky liay
+// app.set('views','views');
 const rootPath=require('./util/rootPath.js')
 app.use(express.static(path.join(rootPath,"/public")))
 
@@ -16,6 +19,7 @@ app.use('/admin',adminRoute.route);
 app.use('/',(req,res,next)=>{
     res.render("404",
         {
+            pageTitle:404,
             url:req.url,
         });
 });
