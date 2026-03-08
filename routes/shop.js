@@ -11,7 +11,8 @@ router.get('/', (req, res, next) => {
   res.render("shop",
     {
       productArray:adminFile.products,
-      pageTitle:"My Shop"
+      pageTitle:"My Shop",
+      url:req.url
     }
   );
 });
