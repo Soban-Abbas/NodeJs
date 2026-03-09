@@ -1,24 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Home</title>
-    <link rel="stylesheet" href="/css/main.css">
 
+<%- include("includes/head.ejs") %>
 </head>
+
 <body>
-    <header class="main-header">
-        <nav class="main-header__nav">
-            <ul class="main-header__item-list">
-                  <li class="main-header__item"><a  class="active"  href="/">Home</a></li>
-                <li class="main-header__item"><a href="/users">Add User</a></li>
-            </ul>
-        </nav>
-    </header>
+ <%- include("includes/nav.ejs") %>
     <main>
-  <p>No User Register Yet!</p>
+        <% if(registerUser.length>0){ %>
+            <% for (let user of registerUser){ %>
+                <ul>
+                    <li>
+                        <%= user.name%>
+                    </li>
+                </ul>
+                <%}%>
+                    <% }else { %>
+
+                        <p>No User Register Yet!</p>
+                        <%}%>
     </main>
-</body>
-</html>
+
+    <%- include("includes/end.ejs") %>
