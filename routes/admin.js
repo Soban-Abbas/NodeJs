@@ -2,28 +2,17 @@ const path = require('path');
 
 const express = require('express');
 
-const rootDir = require('../util/rootPath');
 
 const router = express.Router();
+const adminRoutes = require("../controllers/cadmin.js")
 
-const products = [];
 
 // /admin/add-product => GET
-router.get('/add-product', (req, res, next) => {
-  res.render("add-product",{
-    url:"/admin"+req.url,
-    pageTitle:"admin-page"
-  });
-});
+router.get('/add-product', adminRoutes.adminGet);
 
 // /admin/add-product => POST
-router.post('/add-product', (req, res, next) => {
-  
-  products.push({title:req.body.title});
-  res.redirect('/');
-});
+router.post('/add-product', adminRoutes.adminPost);
 
-module.exports={
-  route:router,
-  products:products
+module.exports = {
+  route: router
 }
