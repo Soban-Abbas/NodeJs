@@ -17,9 +17,10 @@ exports.fetchSaleProducts=(req,res,next)=>{
     })
 })}
 
-exports.cart=(req,res,next)=>{
-    res.render("user/cart",{
-        pageTitle:"cart",
+
+exports.orders=(req,res,next)=>{
+    res.render("user/orders",{
+        pageTitle:"Your Orders",
         url:req.url
     })
 }
@@ -28,6 +29,17 @@ exports.checkout=(req,res,next)=>{
         pageTitle:"Checkout",
         url:req.url
     })
+}
+exports.details=(req,res,next)=>{
+   
+    modelProduct.findproduct(req.params.productId,(product)=>{
+        res.render("user/product-detail",{
+            pageTitle:product.title,
+            url:"",
+            productArray:[product]
+        })
+    })
+
 }
 // const getShop= (req, res, next) => {
 //   console.log(productArray.product);

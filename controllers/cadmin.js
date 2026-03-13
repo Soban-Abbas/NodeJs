@@ -8,7 +8,7 @@ const admingetProduct= (req, res, next) => {
 
 const adminPostProduct= (req, res, next) => {
   
-  const newProduct=new modelProduct(req.body.title);
+  const newProduct=new modelProduct(req.body.title,req.body.price,req.body.image,req.body.discription);
   newProduct.save();
   res.redirect('/');
 }
