@@ -14,22 +14,49 @@ const readFileContent = (cb) => {
     })
 }
 module.exports = class product {
-    constructor(title, price, img, dis) {
+    constructor(id, title, price, img, dis) {
+        this.id = id;
         this.title = title;
         this.price = price
         this.image = img;
         this.discription = dis;
-        this.id = (Math.random() * 100).toFixed(4);
+        
     }
 
     save() {
 
-        readFileContent((product) => {
-            product.push(this)
-            fs.writeFile(filePath, JSON.stringify(product), (err) => {
-                console.log(err);
+
+        if (this.id === null) {
+          this.id = (Math.random() * 100).toFixed(4)
+
+            readFileContent((product) => {
+                product.push(this)
+                fs.writeFile(filePath, JSON.stringify(product), (err) => {
+                    console.log(err);
+                })
             })
-        })
+        }
+        else {
+
+            readFileContent((product) => {
+                const existingProductIndex = product.findIndex(p => p.id === this.id);
+                //product ik array ha os ma objs hin
+                //array ma ham push kr skte hin 
+                //agr kisi speciic index ma change krna hu
+                // array[8]=newitem so
+                //hamin index mil gya jider hamra product exit krnt ha 
+                //bus os index ko updated product sy update kr du
+                product[existingProductIndex] = this
+                fs.writeFile(filePath, JSON.stringify(product), (err) => {
+                
+                    
+                })
+            })
+
+        }
+
+
+
     }
 
 
@@ -41,14 +68,14 @@ module.exports = class product {
     static findproduct(id, cb) {
 
         readFileContent((product) => {
-            const pro = product.find(p => p.id===id)
-              cb(pro);
-            } );
-        
-          
-        };
+            const pro = product.find(p => p.id === id)
+            cb(pro);
+        });
+
+
+    };
 
 
 
 
-    }
+}
