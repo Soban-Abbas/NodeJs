@@ -1,5 +1,5 @@
 const cartModel= require("../models/cart")
-
+const productModel=require("../models/product")
 exports.cart=(req,res,next)=>{
 
     res.render("user/cart",{
@@ -10,10 +10,15 @@ exports.cart=(req,res,next)=>{
 
 }
 exports.addToCart=(req,res,next)=>{
-    cartModel.addProductToCart(req.params.productID , req.params.price)
-    res.redirect("/cart")
+    productModel.findproduct(req.params.productID,(product)=>{
+cartModel.addProductToCart(product.id,product.price);
+          res.redirect("/cart")
+    })
+        
+    }
+  
 
- }
+ 
 
 
 

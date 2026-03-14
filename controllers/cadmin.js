@@ -1,8 +1,11 @@
-const modelProduct=require("../models/product")
+
+const modelProduct= require("../models/product")
 const admingetProduct= (req, res, next) => {
-  res.render("admin/add-product",{
+  res.render("admin/edit-product",{
     url:"/admin"+req.url,
-    pageTitle:"admin-page"
+    pageTitle:"admin-page",
+    edit : false,
+    product:false
   });
 }
 
@@ -21,13 +24,30 @@ const productList=(req,res,next)=>{
     })
   })
 }
-const editProduct=(req,res,next)=>{
+const productEdit=(req,res,next)=>{
+let edit=req.query.edit;
+if(edit==="true"){
 
+  let id=req.params.productID;
+  console.log(id);
+console.log(edit)
+  modelProduct.findproduct(id,(prod)=>{
+  res.render("admin/edit-product",{
+    pageTitle:"Edit Product",
+    url:"/edit-product",
+    edit:true,
+    product:prod
+  })
+  })
+
+}else{
+  res.redirect("/")
+}
 }
 module.exports={
     adminGet:admingetProduct,
     adminPost:adminPostProduct,
     adminProductList:productList,
-    adminEditProduct:editProduct
+    editProduct:productEdit
     
 }

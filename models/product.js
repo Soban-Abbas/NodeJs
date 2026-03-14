@@ -9,7 +9,7 @@ const readFileContent = (cb) => {
         if (err || !filedata.length) {
             cb([])
         } else {
-            cb(JSON.parse(filedata))
+            cb(JSON.parse(filedata.toString()))
         }
     })
 }
@@ -41,12 +41,14 @@ module.exports = class product {
     static findproduct(id, cb) {
 
         readFileContent((product) => {
-            const pro = product.find(p => p.id === id);
-            cb(pro);
-        });
+            const pro = product.find(p => p.id===id)
+              cb(pro);
+            } );
+        
+          
+        };
 
 
 
 
     }
-}
