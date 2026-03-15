@@ -22,7 +22,11 @@
                                 <h2 class="product__price">Rs: <%=book.price%></h2>
                                  <h3 class="product__description">Qty: <%= book.Qty%></h3>
                                 <h3 class="product__description">Total: <%= book.TotalPrice%></h3>
-                                
+                               
+                                <form action="/delete-cart-product" method="POST">
+                                     <input type="hidden" name="productID" value="<%=book.id%>">
+<button class="btn" type="submit">Delete</button>
+                                </form>
                                
                             </div>
                          <!-- <%-include("../includes/cartDetailBtn.ejs",{book:book})%> -->

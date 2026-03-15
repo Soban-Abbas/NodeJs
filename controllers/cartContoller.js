@@ -20,37 +20,21 @@ cartModel.addProductToCart(product.id,product.price);
 
   exports.cart=(req,res,next)=>{
 
-cartModel.fetchAllProduct((cart)=>{
-    productModel.fetchAll((product)=>{
-            let detailProductData=cart.products.map((cartItem)=>{
-                const matchProduct=product.find(p=>p.id===cartItem.id);
-
-                return{
-                    id:cartItem.id,
-                    title:matchProduct.title,
-                    image:matchProduct.image,
-                    Qty:cartItem.Qty,
-                    price:matchProduct.price,
-                    TotalPrice:cartItem.price,
-                }
-            })
-
-          res.render("user/cart",{
-              productArray:detailProductData,
-              pageTitle:"Cart",
-              url:"/cart",
-              grandTotal:cart.Total,
-          })
-
-
-
+cartModel.getDetailedProducts((products,total)=>{
+    res.render("user/cart",{
+        productArray:products,
+        pageTitle:"Cart",
+        url:"/cart",
+        grandTotal:total
     })
-   })
-
-  }
-
- 
+})
+ }
 
 
-
+ exports.deleteCartProduct=(req,res,next)=>{
+    console.log(req.body.productID);
+    cartModel.deleteCartProduct(req.body.productID,(cartItem,total)=>{
+     res.redirect("/cart")
+    })
+ }
 
