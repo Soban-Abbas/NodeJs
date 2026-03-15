@@ -2,6 +2,18 @@ const fs = require("fs");
 const path = require("path");
 const rootPath = require("../util/rootPath");
 const cartfile = path.join(rootPath, "data", "cart.json");
+const productModel=require("../models/product")
+const readFile=(cb)=>{
+ fs.readFile(cartfile,(err,fileData)=>{
+    if(err || fileData.length===0 || !fileData){
+        cb({});
+    }else{
+      cb(JSON.parse(fileData.toString()))
+    }
+ })
+
+
+}
 
 
 class Cart{
@@ -61,5 +73,31 @@ fs.writeFile(cartfile,JSON.stringify(cart),(err)=>{
 
 
 }
+
+static fetchAllProduct(cb){
+    
+   readFile(cb)
+
+}
+
+
+
 }
 module.exports=Cart
+
+
+// (cart)=>{
+    // productModel.fetchAll((product)=>{
+    //         let detailProductData=cart.products.map((cartItem)=>{
+    //             const matchProduct=product.find(p=>p.id===cartItem.id);
+
+    //             return{
+    //                 id:cartItem.id,
+    //                 title:matchProduct.title,
+    //                 image:matchProduct.image,
+    //                 Qty:cartItem.Qty,
+    //                 TotalPrice:cartItem.price,
+    //             }
+    //         })
+    // })
+//    }

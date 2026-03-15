@@ -1,7 +1,48 @@
 <%-include("../includes/head.ejs")%>
 </head>
 <%-include("../includes/nav.ejs")%>
-<p>This is Your cart</p>
+
+
+
+        <main>
+            <% if(productArray.length!=0){ %>
+                <% for(let book of productArray){ %>
+                    <div class="grid">
+                        <article class="card product-item">
+                            <header class="card__header">
+                                <h3 class="product__title">Item In cart:
+                                    <%=book.title%>
+                                </h3>
+                            </header>
+                            <div class="card__image">
+                                <img src=<%= book.image %>
+                                    alt="A Book">
+                            </div>
+                            <div class="card__content">
+                                <h2 class="product__price">Rs: <%=book.price%></h2>
+                                 <h3 class="product__description">Qty: <%= book.Qty%></h3>
+                                <h3 class="product__description">Total: <%= book.TotalPrice%></h3>
+                                
+                               
+                            </div>
+                         <!-- <%-include("../includes/cartDetailBtn.ejs",{book:book})%> -->
+                        </article>
+                    </div>
+                    <%}%>
+                          <div class="card__content">
+                                <h2 class="product__price">GrandTotal:<%=grandTotal%></h2>
+                                 
+                                
+                               
+                            </div>
+                    
+                        <%} else{%>
+                            <p>Cart is empty</p>
+                            <% }%>
+
+
+        </main>
+
 
 </body>
 

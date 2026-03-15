@@ -26,7 +26,7 @@ module.exports = class product {
     save() {
 
 
-        if (this.id === null) {
+        if (this.id === '') {
           this.id = (Math.random() * 100).toFixed(4)
 
             readFileContent((product) => {
@@ -75,7 +75,17 @@ module.exports = class product {
 
     };
 
+   
+    static deleteProduct(id){
+        readFileContent((product)=>{
+             const deleteProductIndex=product.findIndex(p=>p.id===id);
+             product.splice(deleteProductIndex,1);
 
+             fs.writeFile(filePath,JSON.stringify(product),(err)=>{
+                console.log(err);
+             })
+        })
+    }
 
 
 }

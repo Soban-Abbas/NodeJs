@@ -11,7 +11,8 @@ const admingetProduct = (req, res, next) => {
 
 const adminPostProduct = (req, res, next) => {
 
-  const newProduct = new modelProduct(req.body.title, req.body.price, req.body.image, req.body.discription);
+  console.log(req.body);
+  const newProduct = new modelProduct(req.body.productID,req.body.title, req.body.price, req.body.image, req.body.discription);
   newProduct.save();
   res.redirect('/');
 }
@@ -50,11 +51,19 @@ const postEditProduct=(req,res,next)=>{
 updateProduct.save();
 res.redirect("/admin/product-list")
 }
+
+
+const deleteProduct=(req,res,next)=>{
+  
+modelProduct.deleteProduct(req.body.productID);
+res.redirect("/admin/product-list");
+
+}
 module.exports = {
   adminGet: admingetProduct,
   adminPost: adminPostProduct,
   adminProductList: productList,
   editProduct: productEdit,
-  postEditProduct: postEditProduct
-
+  postEditProduct: postEditProduct,
+  deleteProduct:deleteProduct
 }
