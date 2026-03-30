@@ -4,7 +4,7 @@ require('dotenv').config()
 const shop=require("./routes/shop.js")
 const adminRoute=require("./routes/admin.js");
 const cartRoutes=require("./routes/cartRoutes.js");
-const db=require("./util/dbConfig.js");
+const  sequelize=require("./util/dbConfig.js");
 const bodyParser=require("body-parser")
 const path=require("path");
 const error404=require("./controllers/c404.js")
@@ -25,4 +25,9 @@ app.use('/',error404);
 
 //db.pool.execute('select * from products').then((result)=>console.log(result[0])).catch((err)=>console.log(err));
 
+sequelize.sync().then((result)=>{
+    
 app.listen(3000);
+}).catch((err)=>{
+    console.log(err)
+})

@@ -11,17 +11,21 @@ const admingetProduct = (req, res, next) => {
 
 const adminPostProduct = (req, res, next) => {
 
-  console.log(req.body);
-  const newProduct = new modelProduct(req.body.productID,req.body.title, req.body.price, req.body.image, req.body.discription);
-  newProduct.save().then(()=>{
-    res.redirect('/');
-  }).catch((err)=>{
+  modelProduct.create({
+    title:req.body.title,
+    price:req.body.price,
+    discription:req.body.discription,
+    image:req.body.image
+  }).then((result)=>{
+console.log("product Added")
+res.redirect("/admin/product-list")
+  }).then((err)=>{
     console.log(err);
   })
   
 }
 const productList = (req, res, next) => {
-  modelProduct.fetchAll().then(([product])=>{
+  modelProduct.findAll().then((product)=>{
      res.render("admin/products", {
       pageTitle: "Admin-Products",
       url: "/admin" + req.url,
@@ -37,13 +41,15 @@ const productEdit = (req, res, next) => {
 
     let id = req.params.productID;
     
-    modelProduct.findproduct(id, (prod) => {
-      res.render("admin/edit-product", {
+    modelProduct.findByPk(id).then((prod)=>{
+       res.render("admin/edit-product", {
         pageTitle: "Edit Product",
         url: "/edit-product",
         edit: true,
         product: prod
       })
+    }).catch((err)=>{
+      console.log(err)
     })
 
   } else {
@@ -53,21 +59,49 @@ const productEdit = (req, res, next) => {
 const postEditProduct=(req,res,next)=>{
   
 
-  const updateProduct=new modelProduct(req.body.productID,req.body.title,req.body.price,req.body.image,req.body.discription)
-updateProduct.save().then(()=>{
-res.redirect("/admin/product-list")
-}).catch((err)=>{
-console.log(err);
+ 
+
+modelProduct.findByPk(req.body.productID).then((product)=>{
+  product.title=req.body.title,
+  product.price=req.body.price,
+  product.image=req.body.image,
+  product.discription=req.body.discription
+
+ return product.save();
 })
-
+.then(()=>{
+  res.redirect("/admin/product-list")
+})
+.catch((err)=>{
+  console.log(err)
+})
 }
-
+//_____better aproach to update_______
+// modelProduct.update(
+//   {
+//     title: req.body.title,
+//     price: req.body.price,
+//     image: req.body.image,
+//     discription: req.body.discription
+//   },
+//   {
+//     where: { id: req.body.productID }
+//   }
+// )
+// .then(() => {
+//   res.redirect("/admin/product-list");
+// })
+// .catch(err => console.log(err));
 
 const deleteProduct=(req,res,next)=>{
   
-modelProduct.deleteProduct(req.body.productID);
-res.redirect("/admin/product-list");
-
+modelProduct.destroy({where:{
+  id:req.body.productID
+}}).then(()=>{
+  res.redirect("/admin/product-list");
+}).catch((err)=>{
+  console.log(err)
+})
 }
 module.exports = {
   adminGet: admingetProduct,
