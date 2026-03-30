@@ -23,6 +23,6 @@ app.use('/admin',adminRoute.route);
 app.use(cartRoutes.cart)
 app.use('/',error404);
 
-db.pool.execute('select * from products').then((result)=>console.log(result[0])).catch((err)=>console.log(err));
+//db.pool.execute('select * from products').then((result)=>console.log(result[0])).catch((err)=>console.log(err));
 
 app.listen(3000);

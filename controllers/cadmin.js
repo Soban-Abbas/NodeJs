@@ -13,16 +13,22 @@ const adminPostProduct = (req, res, next) => {
 
   console.log(req.body);
   const newProduct = new modelProduct(req.body.productID,req.body.title, req.body.price, req.body.image, req.body.discription);
-  newProduct.save();
-  res.redirect('/');
+  newProduct.save().then(()=>{
+    res.redirect('/');
+  }).catch((err)=>{
+    console.log(err);
+  })
+  
 }
 const productList = (req, res, next) => {
-  modelProduct.fetchAll((product) => {
-    res.render("admin/products", {
+  modelProduct.fetchAll().then(([product])=>{
+     res.render("admin/products", {
       pageTitle: "Admin-Products",
       url: "/admin" + req.url,
       productArray: product
     })
+  }).catch((err)=>{
+    console.log(err)
   })
 }
 const productEdit = (req, res, next) => {
@@ -48,8 +54,12 @@ const postEditProduct=(req,res,next)=>{
   
 
   const updateProduct=new modelProduct(req.body.productID,req.body.title,req.body.price,req.body.image,req.body.discription)
-updateProduct.save();
+updateProduct.save().then(()=>{
 res.redirect("/admin/product-list")
+}).catch((err)=>{
+console.log(err);
+})
+
 }
 
 

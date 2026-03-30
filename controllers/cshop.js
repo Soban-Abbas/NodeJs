@@ -1,21 +1,27 @@
 const productArray=require("../controllers/cadmin.js");
 const modelProduct=require("../models/product.js");
 exports.fetchProduct=(req,res,next)=>{
- modelProduct.fetchAll((product)=>{
+ modelProduct.fetchAll().then(([product,metadata])=>{
     res.render("user/product-list",{
         productArray:product,
          pageTitle:"ALL-Products",
       url:req.url
     })
-})}
+ }).catch((err)=>{
+    console.log(err)
+ })
+}
 exports.fetchSaleProducts=(req,res,next)=>{
- modelProduct.fetchAll((product)=>{
-    res.render("user/index",{
+ modelProduct.fetchAll().then(([product,metadata])=>{
+     res.render("user/index",{
         productArray:product,
          pageTitle:"Sale",
       url:req.url
     })
-})}
+ }).catch((err)=>{
+    console.log(err);
+ })
+}
 
 
 exports.orders=(req,res,next)=>{
@@ -32,13 +38,16 @@ exports.checkout=(req,res,next)=>{
 }
 exports.details=(req,res,next)=>{
    
-    modelProduct.findproduct(req.params.productId,(product)=>{
-        res.render("user/product-detail",{
+    modelProduct.findproduct(req.params.productId).then(([product])=>{
+         res.render("user/product-detail",{
             pageTitle:product.title,
             url:"",
-            productArray:[product]
+            productArray:product
         })
+    }).catch((err)=>{
+        console.log(err);
     })
+
 
 }
 // const getShop= (req, res, next) => {
