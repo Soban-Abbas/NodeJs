@@ -10,8 +10,7 @@ const admingetProduct = (req, res, next) => {
 }
 
 const adminPostProduct = (req, res, next) => {
-
-  modelProduct.create({
+req.user.createProduct({
     title:req.body.title,
     price:req.body.price,
     discription:req.body.discription,
@@ -22,7 +21,6 @@ res.redirect("/admin/product-list")
   }).then((err)=>{
     console.log(err);
   })
-  
 }
 const productList = (req, res, next) => {
   modelProduct.findAll().then((product)=>{

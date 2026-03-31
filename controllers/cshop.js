@@ -1,5 +1,8 @@
+const sequelize = require("sequelize");
 const productArray=require("../controllers/cadmin.js");
 const modelProduct=require("../models/product.js");
+/** @type {Sequelize} */
+
 exports.fetchProduct=(req,res,next)=>{
 modelProduct.findAll().then((product)=>{
      res.render("user/product-list",{
@@ -11,6 +14,7 @@ modelProduct.findAll().then((product)=>{
     console.log(err)
 })
 }
+
 exports.fetchSaleProducts=(req,res,next)=>{
  modelProduct.findAll().then((product)=>{
      res.render("user/index",{
