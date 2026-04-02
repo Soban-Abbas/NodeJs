@@ -12,7 +12,9 @@ app.set('view engine','ejs');
 app.set("views","views");
 const productmodel=require("./models/product.js");
 const usermodel=require("./models/user.js");
-
+const cart=require("./models/cart.js");
+const cartItems=require("./models/cartItems.js");
+const order=require("./models/order.js");
 // app.set('view engine' , 'pug'); ya pug use krne ky liay
 // app.set('views','views');
 const rootPath=require('./util/rootPath.js');
@@ -43,6 +45,16 @@ productmodel.belongsTo(usermodel,{
     onDelete:'CASCADE',
 });
 usermodel.hasMany(productmodel);
+
+cart.belongsTo(usermodel);
+usermodel.hasOne(cart);
+
+productmodel.belongsToMany(cart,{through:cartItems})
+cart.belongsToMany(productmodel,{through:cartItems});
+
+usermodel.hasMany(order);
+order.belongsTo(usermodel);
+
 sequelize.sync().then((result)=>{
    return usermodel.findByPk(1)
 
@@ -57,7 +69,7 @@ sequelize.sync().then((result)=>{
     return Promise.resolve(user)
 })
 .then((user)=>{
-console.log(user)
+//console.log(user)
 app.listen(3000);
 })
 .catch((err)=>{

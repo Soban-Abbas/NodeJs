@@ -20,7 +20,7 @@
                             </div>
                             <div class="card__content">
                                 <h2 class="product__price">Rs: <%=book.price%></h2>
-                                 <h3 class="product__description">Qty: <%= book.Qty%></h3>
+                                 <h3 class="product__description">Qty: <%= book.CartItems.quantity%></h3>
                                 <h3 class="product__description">Total: <%= book.TotalPrice%></h3>
                                
                                 <form action="/delete-cart-product" method="POST">
