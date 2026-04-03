@@ -68,6 +68,15 @@ exports.cart = async (req, res, next) => {
 
     try {
         let cart = await req.user.getCart();
+        if(!cart){
+            let product=[]
+             res.render("user/cart", {
+            productArray: product,
+            pageTitle: "Cart",
+            url: "/cart",
+            
+        })
+        }
         let product = await cart.getProducts();
         res.render("user/cart", {
             productArray: product,

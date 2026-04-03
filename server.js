@@ -15,10 +15,11 @@ const usermodel=require("./models/user.js");
 const cart=require("./models/cart.js");
 const cartItems=require("./models/cartItems.js");
 const order=require("./models/order.js");
+const orderItems=require("./models/orderItems.js");
 // app.set('view engine' , 'pug'); ya pug use krne ky liay
 // app.set('views','views');
 const rootPath=require('./util/rootPath.js');
-//
+const orderRoutes=require("./routes/order.js")
 app.use(express.static(path.join(rootPath,"/public")))
 
 app.use(bodyParser.urlencoded({extended:true}))// Middleware for parsing URL-encoded form data (e.g., HTML forms)
@@ -37,6 +38,8 @@ app.use((req,res,next)=>{
 app.use(shop.shopi);
 app.use('/admin',adminRoute.route);
 app.use(cartRoutes.cart)
+
+app.use(orderRoutes.order);
 app.use('/',error404);
 
 //db.pool.execute('select * from products').then((result)=>console.log(result[0])).catch((err)=>console.log(err));
@@ -55,7 +58,10 @@ cart.belongsToMany(productmodel,{through:cartItems});
 usermodel.hasMany(order);
 order.belongsTo(usermodel);
 
-sequelize.sync().then((result)=>{
+order.belongsToMany(productmodel,{through:orderItems});
+productmodel.belongsToMany(order,{through:orderItems})
+
+sequelize.sync({}).then((result)=>{
    return usermodel.findByPk(1)
 
 })
