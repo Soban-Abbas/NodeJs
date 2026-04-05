@@ -1,20 +1,20 @@
-const Sequelize = require("sequelize");
+// const Sequelize = require("sequelize");
 
-const sequelize = require("../util/dbConfig");
+// const sequelize = require("../util/dbConfig");
 
-const orderItems = sequelize.define('OrderItems', {
+// const orderItems = sequelize.define('OrderItems', {
 
-id:{
-    type:Sequelize.INTEGER,
-    autoIncrement:true,
-    allowNull:false,
-    primaryKey:true
-}
-,
-quantity:{
-    type:Sequelize.INTEGER,
-    allowNull:false
-}
-})
+// id:{
+//     type:Sequelize.INTEGER,
+//     autoIncrement:true,
+//     allowNull:false,
+//     primaryKey:true
+// }
+// ,
+// quantity:{
+//     type:Sequelize.INTEGER,
+//     allowNull:false
+// }
+// })
 
-module.exports = orderItems
+// module.exports = orderItems

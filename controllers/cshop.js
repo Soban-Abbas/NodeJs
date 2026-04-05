@@ -1,57 +1,49 @@
-const sequelize = require("sequelize");
+//const sequelize = require("sequelize");
 const productArray=require("../controllers/cadmin.js");
 const modelProduct=require("../models/product.js");
 
 
 exports.fetchProduct=(req,res,next)=>{
-modelProduct.findAll().then((product)=>{
-     res.render("user/product-list",{
+
+modelProduct.getProducts((product)=>{
+ res.render("user/product-list",{
         productArray:product,
          pageTitle:"ALL-Products",
       url:req.url
     })
-}).catch((err)=>{
-    console.log(err)
 })
+
 }
 
 exports.fetchSaleProducts=(req,res,next)=>{
- modelProduct.findAll().then((product)=>{
-     res.render("user/index",{
+
+
+    modelProduct.getProducts((product)=>{
+  res.render("user/index",{
         productArray:product,
          pageTitle:"Sale",
       url:req.url
     })
- }).catch(err=>console.log(err))
+})
+
 }
+
+
 
 
 
 exports.details=(req,res,next)=>{
-   
-    modelProduct.findAll({
-        where:{
-            id:req.params.productId
-        }
-    }).then((product)=>{
-         res.render("user/product-detail",{
+  modelProduct.findOneProduct(req.params.productId).then((product)=>{
+   // console.log(product)
+  res.render("user/product-detail",{
             pageTitle:product.title,
             url:"",
-            productArray:product
+            productArray:[product]
         })
-    }).catch((err)=>{
-        console.log(err);
-    })
-
+  }).catch((err)=>{
+    console.log(err);
+  })
+       
+ 
 
 }
-// const getShop= (req, res, next) => {
-//   console.log(productArray.product);
-//   res.render("shop",
-//     {
-//       productArray:productArray.product,
-//       pageTitle:"My Shop",
-//       url:"/"
-//     }
-//   );
-// }
