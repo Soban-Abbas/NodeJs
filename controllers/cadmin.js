@@ -45,7 +45,7 @@ const productEdit = (req, res, next) => {
     let id = req.params.productID;
 
     modelProduct.findOneProduct(id).then((product) => {
-    //  console.log(product);
+    //                  console.log(product);
       res.render("admin/edit-product", {
         pageTitle: "Edit Product",
         url: "/admin/add-product",

@@ -1,5 +1,5 @@
 const dbconfigfile = require("../util/dbConfig");
-const mongodb=require("mongodb")
+// const mongodb=require("mongodb")
 let getdb = dbconfigfile.getdb
 
 class product {
@@ -13,7 +13,7 @@ class product {
     }
     save(Callback) {
         let db = getdb();
-        console.log(this);
+      //  console.log(this);
         db.collection('products').insertOne(this).then((result) => {
             console.log(result)
             Callback();
