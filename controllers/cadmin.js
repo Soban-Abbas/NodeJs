@@ -17,7 +17,8 @@ const adminPostProduct = (req, res, next) => {
     req.body.title,
     req.body.price,
     req.body.image,
-    req.body.discription)
+    req.body.discription,
+  req.user._id)
   product.save(() => {
     res.redirect("/admin/product-list")
   })

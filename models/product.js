@@ -1,15 +1,16 @@
 const dbconfigfile = require("../util/dbConfig");
-// const mongodb=require("mongodb")
+const mongodb=require("mongodb")
 let getdb = dbconfigfile.getdb
 
 class product {
 
-    constructor(id,title, price, image, discription) {
+    constructor(id,title, price, image, discription,userId) {
         this.id = Math.random().toFixed(4);
         this.title = title,
             this.price = price,
             this.image = image,
             this.discription = discription
+            this.userId=userId
     }
     save(Callback) {
         let db = getdb();
