@@ -24,7 +24,7 @@
                                 <h3 class="product__description">Total: <%= book.price%></h3>
                                
                                 <form action="/delete-cart-product" method="POST">
-                                     <input type="hidden" name="productID" value="<%=book.id%>">
+                                     <input type="hidden" name="productID" value="<%=book._id%>">
 <button class="btn" type="submit">Delete</button>
                                 </form>
                                

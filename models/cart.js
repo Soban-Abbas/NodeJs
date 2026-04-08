@@ -49,6 +49,11 @@ class cart {
             console.log(error)
         }
     }
+
+    static deletefromCart(id){
+        let db=getdb();
+        return db.collection("cart").deleteOne({productID:new mongodb.ObjectId(id)})
+    }
 }
 
 module.exports = cart;

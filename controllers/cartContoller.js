@@ -40,9 +40,20 @@ cartModel.getCart((products)=>{
 }
 
 
+exports.deleteCartProduct=(req,res,next)=>{
+    console.log(req.params.productID)
+//cartModel.deletefromCart(req.params.productID)
+}
+
+
 exports.deleteCartProduct = (req, res, next) => {
+console.log(req.body.productID);
 
-
+cartModel.deletefromCart(req.body.productID).then(()=>{
+    res.redirect("/cart")
+}).catch((err)=>{
+    console.log(err)
+})
 
 
    // res.redirect("/cart")
