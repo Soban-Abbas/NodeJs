@@ -1,4 +1,5 @@
 //const { cart } = require("../controllers/cartContoller");
+const product = require("../models/product");
 const modelProduct = require("../models/product")
 const dbConfig = require("../util/dbConfig");
 const mongodb = require("mongodb");
@@ -29,7 +30,7 @@ class user {
         let db = getdb()
         return modelProduct.findOneProduct(productID).then((product) => {
             let productInCart = this.cart.items.find((cartProduct) => {
-                return cartProduct._id.toString() == product._id.toString()
+                return cartProduct.productId.toString() === product._id.toString()
             })
 
             if (productInCart) {
@@ -40,11 +41,11 @@ class user {
 
             } else {
                 this.cart.items.push({
-                    ...product,
+                    productId: product._id,
                     quantity: 1,
                     price: product.price
                 })
-             //   console.log(this.cart);
+                //   console.log(this.cart);
 
 
             }
@@ -59,10 +60,40 @@ class user {
     }
 
 
-    getCart(id) {
+    getCart() {
         let db = getdb();
-        return db.collection("users").findOne({ _id: new mongodb.ObjectId(this._id) },{ projection: { "cart.items": 1 } })
-          //   db.collection("users").findOne({ _id: new mongodb.ObjectId(this._id) }, { projection: { "cart.items": 1 } })
+        let cartProductIDs = this.cart.items.map((pro) => {
+            return pro.productId;
+        })
+
+        return db.collection("products").find({ _id: { $in: cartProductIDs } }).toArray().then((products) => {
+            //  console.log(products)
+
+            return products.map((product) => {
+                let itemdetail = this.cart.items.find((item) => {
+                    return item.productId.toString() === product._id.toString();
+                })
+                return {
+                    ...product,
+                    quantity: itemdetail.quantity,
+                    TotalPrice: itemdetail.price
+                }
+
+
+            })
+
+        })
+
+
+        // let db = getdb();
+        //  db.collection("users").findOne({ _id: new mongodb.ObjectId(this._id) },{ projection: { "cart.items": 1 } }).then((result)=>{
+        //     console.log(result)
+        //  })
+        //   db.collection("users").findOne({ _id: new mongodb.ObjectId(this._id) }, { projection: { "cart.items": 1 } })
+    }
+    deleteProductFormCart(prodID){
+        let db=getdb()
+       return db.collection("users").updateOne({_id:new mongodb.ObjectId(this._id)},{$pull:{"cart.items":{productId:new mongodb.ObjectId(prodID)}}})
     }
 }
 

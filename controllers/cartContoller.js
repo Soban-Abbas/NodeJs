@@ -27,8 +27,8 @@ req.user.postproductInCart(req.params.productID).then(()=>{
 
 exports.cart = (req, res, next) => {
 
-    req.user.getCart(req.user._id).then((result)=>{
-        let products=result.cart.items
+    req.user.getCart() .then((products)=>{
+       // console.log(products)
         res.render("user/cart",{
         pageTitle:"Cart",
         productArray:products,
@@ -45,19 +45,11 @@ exports.cart = (req, res, next) => {
 
 
 exports.deleteCartProduct=(req,res,next)=>{
-    console.log(req.params.productID)
-//cartModel.deletefromCart(req.params.productID)
-}
-
-
-exports.deleteCartProduct = (req, res, next) => {
-console.log(req.body.productID);
-
-cartModel.deletefromCart(req.body.productID).then(()=>{
-    res.redirect("/cart")
-}).catch((err)=>{
+   req.user.deleteProductFormCart(req.body.productID).then(()=>{
+    res.redirect('/cart')
+   }).catch((err)=>{
     console.log(err)
-})
+   })
 
 
    // res.redirect("/cart")
