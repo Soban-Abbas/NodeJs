@@ -23,9 +23,13 @@ app.use(express.static(path.join(rootPath,"/public")))
 app.use(bodyParser.urlencoded({extended:true}))// Middleware for parsing URL-encoded form data (e.g., HTML forms)
 //middlewere to wrap user with req
 app.use((req,res,next)=>{
-    user.findUser("69d3eef731f2f991a794ce7c").then((user)=>{
-        req.user=user
-        console.log(req);
+    user.findUser("69d3eef731f2f991a794ce7c").then((dbuser)=>{
+        let curentUser= new user(dbuser.name,dbuser.email)
+        curentUser._id=dbuser._id,
+        curentUser.cart=dbuser.cart||{items:[]};
+
+        req.user=curentUser
+       // console.log(req.user)
         next()
     }).catch((err)=>{
         console.log(err)

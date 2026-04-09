@@ -1,12 +1,15 @@
-const cartModel = require("../models/cart")
+//const cartModel = require("../models/cart")
 //const product = require("../models/product")
 //const productModel = require("../models/product")
 const usermodel = require("../models/user")
 
 exports.addToCart = (req, res, next) => {
 //cartModel.saveintoCart(req.params.productID);
-cartModel.saveToCart(req.params.productID,()=>{
-    res.redirect('/cart')
+//console.log(req.params.productID);
+req.user.postproductInCart(req.params.productID).then(()=>{
+    res.redirect("/cart")
+}).catch((err)=>{
+    console.log(err)
 })
 
 
@@ -24,20 +27,21 @@ cartModel.saveToCart(req.params.productID,()=>{
 
 exports.cart = (req, res, next) => {
 
-cartModel.getCart((products)=>{
-    console.log(products)
- res.render("user/cart",{
+    req.user.getCart(req.user._id).then((result)=>{
+        let products=result.cart.items
+        res.render("user/cart",{
         pageTitle:"Cart",
         productArray:products,
         grandTotal:1000,
         url:"/cart"
     })
-})
-   
-
-
-
+    })
+    
+    
 }
+
+
+
 
 
 exports.deleteCartProduct=(req,res,next)=>{
