@@ -3,31 +3,9 @@ const product=require("../models/product");
 const order = require("../routes/order");
 exports.postOrder= async(req,res,next)=>{
    // console.log(req.url);
-try {
-      let cart=await req.user.getCart();
-let product=await cart.getProducts();
-
-let userOrder=await req.user.createOrder();
-await userOrder.addProducts(
-    product.map(p=>{
-        p.OrderItems={
-            quantity:p.CartItems.quantity,
-        }
-        return p;
-    })
-)
-
-await cart.setProducts(null);
-
-
-    res.render("user/orders",{
-        pageTitle:"Your Orders",
-        url:req.url
-    })
-} catch (error) {
-    console.log(error)
-}
-
+req.user.postOrder().then(()=>{
+    console.log("order place")
+})
 
 
 }
