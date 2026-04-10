@@ -1,36 +1,38 @@
-<%-include(".. /includes/head.ejs")%>
+<%-include("../includes/head.ejs")%>
     </head>
-    <%-include(".. /includes/nav.ejs")%>
+    <%-include("../includes/nav.ejs")%>
 
 
         <% if(orders.length>0){ %>
-            <ul>
+            <ol>
                 <%for(let order of orders){ %>
-                    <h3> order ID :<%=order.id %>
-                    </h3>
-                    <% for(let pro of order.Products){%>
-                        <li>
-                            <h5>
-                                <%= pro.title%>
+                    <li><h1> order ID :<%=order._id %>
+                    </li></h1>
+                    <% for(let items of order.orderItems){%>
+                        
+                            <h2>
+                                <%= items.title%>
+                            </h2>
+                            <h5>unit-price
+                                <%= items.unitPrice%>
                             </h5>
-                            <h5>
-                                <%= pro.price%>
+                            <h5>Qty:
+                                <%=items.quantity %>
                             </h5>
-                            <h5>
-                                <%= pro.discription%>
+                            <h5>TotalPrice: <%= items.TotalPrice %>
                             </h5>
-                            <p>Quantity: <%= pro.OrderItems.quantity %>
-                            </p>
-                        </li>
+                        
 
                         <%}%>
+                        <h3>Order-Grandtotal: <%= order.GrandTotal %>
+                        </h3>
                             <%}%>
 
-            </ul>
+            </ol>
             <%} else {%>
 
                 <p>Nothing here!</p>
                 <%}%>
                     </body>
 
-                    <%-include(".. /includes/end.ejs")%>
+                    <%-include("../includes/end.ejs")%>

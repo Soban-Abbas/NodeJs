@@ -92,40 +92,48 @@ class user {
         //  })
         //   db.collection("users").findOne({ _id: new mongodb.ObjectId(this._id) }, { projection: { "cart.items": 1 } })
     }
-    deleteProductFormCart(prodID){
-        let db=getdb()
-       return db.collection("users").updateOne({_id:new mongodb.ObjectId(this._id)},{$pull:{"cart.items":{productId:new mongodb.ObjectId(prodID)}}})
+    deleteProductFormCart(prodID) {
+        let db = getdb()
+        return db.collection("users").updateOne({ _id: new mongodb.ObjectId(this._id) }, { $pull: { "cart.items": { productId: new mongodb.ObjectId(prodID) } } })
     }
 
-    postOrder(){
-        let db=getdb()
-    return this.getCart().then((cart)=>{
-        let orderItem=cart.map((item)=>{
-             return{
-                title:item.title,
-                image:item.image,
-                unitPrice:item.price,
-                quantity:item.quantity,
-                TotalPrice:item.TotalPrice
+    postOrder() {
+        let db = getdb()
+        return this.getCart().then((cart) => {
+            let orderItem = cart.map((item) => {
+                return {
+                    title: item.title,
+                    image: item.image,
+                    unitPrice: item.price,
+                    quantity: item.quantity,
+                    TotalPrice: item.TotalPrice
 
 
-            }
+                }
+            })
+
+            let allProductsInOrderTotal = orderItem.reduce((acc, curr) => {
+                return Number(acc) + Number(curr.TotalPrice)
+            }, 0)
+
+
+            return db.collection("orders").insertOne({ userid: new mongodb.ObjectId(this._id), orderItems: orderItem, GrandTotal: allProductsInOrderTotal }).then(() => {
+               
+                this.cart.items = []
+                return db.collection("users").updateOne({ _id: new mongodb.ObjectId(this._id) },
+                   { $set: { cart: { items: [] } } })
+
+            })
+        }).catch((err) => {
+            console.log(err)
         })
-
-        let allProductsInOrderTotal=orderItem.reduce((acc,curr)=>{
-            return Number(acc)+Number(curr.TotalPrice)
-        },0)
-
-     
-        return  db.collection("orders").insertOne({userid:new mongodb.ObjectId(this._id),orderItems:orderItem,GrandTotal:allProductsInOrderTotal})
-    }).catch((err)=>{
-        console.log(err)
-    })
-        
+    }
 
 
- 
-        
+
+    getOrders() {
+        let db = getdb();
+        return db.collection("orders").find({ userid: new mongodb.ObjectId(this._id) }).toArray()
     }
 }
 
