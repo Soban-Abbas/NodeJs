@@ -68,6 +68,7 @@ exports.cart = (req, res, next) => {
       //  console.log(products.cart.items);
         let structureArray = products.cart.items.map(item => {
             return {
+                _id:item.productId._id,
                 title: item.productId.title,
                 price: item.productId.price,
                 image: item.productId.image,
@@ -99,12 +100,20 @@ exports.cart = (req, res, next) => {
 
 
 exports.deleteCartProduct = (req, res, next) => {
-    req.user.deleteProductFormCart(req.body.productID).then(() => {
-        res.redirect('/cart')
-    }).catch((err) => {
-        console.log(err)
-    })
+  //  console.log("hello")
+ //console.log(req.body)
+ //console.log(req.user.cart.items);
+let getcartProductIndex=req.user.cart.items.findIndex(item=>{
+    return item.productId.toString()===req.body.productID.toString();
+})
 
+//console.log(getcartProductIndex);
+req.user.cart.items.splice(getcartProductIndex,1);
+req.user.save().then(()=>{
+res.redirect('/cart')
+}).catch((err)=>{
+    console.log(err)
+})
 
     // res.redirect("/cart")
 
