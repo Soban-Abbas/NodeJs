@@ -1,3 +1,30 @@
+const mongoose=require("mongoose");
+
+const userSchema=new mongoose.Schema({
+    name:{
+        type:String,
+        required:true,
+        allowNull:false
+    },
+    email:{
+        type:String,
+        required:true
+    },
+    cart:{
+items:[
+    {
+        productId:{type:mongoose.Schema.ObjectId,required:true},
+        quantity:{type:Number,required:true}
+    }
+],
+    }
+})
+
+const user=mongoose.model('user',userSchema);
+module.exports={
+    user:user
+}
+
 // //const { cart } = require("../controllers/cartContoller");
 // const { or } = require("sequelize");
 // const product = require("../models/product");

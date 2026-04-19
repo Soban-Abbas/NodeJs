@@ -1,33 +1,33 @@
 //const sequelize = require("sequelize");
 //const productArray=require("../controllers/cadmin.js");
-const productModel=require("../models/product.js");
+const productModel = require("../models/product.js");
 
 
-exports.fetchProduct=(req,res,next)=>{
+exports.fetchProduct = (req, res, next) => {
 
-productModel.product.find({}).then((product)=>{
-res.render("user/product-detail",{
-        productArray:product,
-         pageTitle:"Details",
-      url:req.url
+  productModel.product.find({}).then((product) => {
+    res.render("user/product-detail", {
+      productArray: product,
+      pageTitle: "Details",
+      url: req.url
     })
-}).catch((err)=>{
-  console.log(err)
-})
+  }).catch((err) => {
+    console.log(err)
+  })
 
 }
 
-exports.fetchSaleProducts=(req,res,next)=>{
+exports.fetchSaleProducts = (req, res, next) => {
 
-productModel.product.find({}).then((product)=>{
-res.render("user/index",{
-        productArray:product,
-         pageTitle:"Sale",
-      url:req.url
+  productModel.product.find({}).then((product) => {
+    res.render("user/index", {
+      productArray: product,
+      pageTitle: "Sale",
+      url: req.url
     })
-}).catch((err)=>{
-  console.log(err)
-})
+  }).catch((err) => {
+    console.log(err)
+  })
 
 }
 
@@ -35,18 +35,18 @@ res.render("user/index",{
 
 
 
-exports.details=(req,res,next)=>{
+exports.details = (req, res, next) => {
 
-  productModel.product.findOne({_id:req.params.productId}).exec().then((product)=>{
-res.render("user/product-detail",{
-            pageTitle:product.title,
-            url:"",
-            productArray:[product]
-        })
-  }).catch((err)=>{
+  productModel.product.findOne({ _id: req.params.productId }).exec().then((product) => {
+    res.render("user/product-detail", {
+      pageTitle: product.title,
+      url: "",
+      productArray: [product]
+    })
+  }).catch((err) => {
     console.log(err);
   })
-  }
-  
+}
+
 
 
