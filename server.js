@@ -10,7 +10,6 @@ const bodyParser=require("body-parser")
 const path=require("path");
 const error404=require("./controllers/c404.js")
 
-
 app.set('view engine','ejs');
 app.set("views","views");
 

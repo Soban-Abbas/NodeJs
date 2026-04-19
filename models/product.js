@@ -1,23 +1,23 @@
 const mongoose=require("mongoose");
 
-const productSchema=new mongoose.Schema({
+const productSchema= new mongoose.Schema({
     title:{
-typeof:String,
-require:true,
-trim:true
+        type:String,
+        required:true,
+        trim:true
     },
     price:{
-        typeof:Number,
-        require:true,
+        type:Number,
+        required:true,
 
     },
     image:{
-        typeof:String,
-        require:true,
+        type:String,
+        required:true,
     },
     discription:{
-        typeof:String,
-        require:true
+        type:String,
+        required:true
     }
 })
 
