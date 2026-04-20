@@ -8,24 +8,23 @@
                 <%for(let order of orders){ %>
                     <li><h1> order ID :<%=order._id %>
                     </li></h1>
-                    <% for(let items of order.orderItems){%>
+                    <% for(let item of order.items){%>
                         
-                            <h2>
-                                <%= items.title%>
+                            <h2>Product-Title
+                                <%= item.product.title%>
                             </h2>
-                            <h5>unit-price
-                                <%= items.unitPrice%>
-                            </h5>
-                            <h5>Qty:
-                                <%=items.quantity %>
-                            </h5>
-                            <h5>TotalPrice: <%= items.TotalPrice %>
-                            </h5>
+                            <h3>unit-price
+                                <%= item.product.price%>
+                            </h3>
+                            <h3>Qty:
+                                <%=item.product.quantity %>
+                            </h3>
+                            
                         
 
                         <%}%>
-                        <h3>Order-Grandtotal: <%= order.GrandTotal %>
-                        </h3>
+                        <h2>Order-Grandtotal: <%= order.grandTotal %>
+                        </h2>
                             <%}%>
 
             </ol>
