@@ -80,7 +80,8 @@ exports.cart = (req, res, next) => {
             pageTitle: "Cart",
             productArray: structureArray,
             grandTotal: 1000,
-            url: "/cart"
+            url: "/cart",
+            AuthenticUser: req.cookies.isvalid
         })
     }).catch((err) => {
         console.log(err)

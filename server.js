@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const mongoose = require("mongoose");
 require('dotenv').config()
+const cookie_parser=require("cookie-parser")
+app.use(cookie_parser());
 const shop = require("./routes/shop.js")
 const adminRoute = require("./routes/admin.js");
 const cartRoutes = require("./routes/cartRoutes.js");
@@ -17,10 +19,15 @@ app.set("views", "views");
 // app.set('views','views');
 const rootPath = require('./util/rootPath.js');
 const orderRoutes = require("./routes/order.js");
+const authRoutes=require("./routes/auth.js")
 const user = require('./models/user.js');
+//public folder ke andar jo files hain, unko directly browser ko serve karo"
+//ya ik middleware ha
+//jab koie req ate hin user ki taraf sy tu ejs files serve hute hin lakin phr browser jab dikha ha kay <link rel="stylesheet" href="/style.css"> wo req bjta ha and this middlewere handle that req 
 app.use(express.static(path.join(rootPath, "/public")))
-
-app.use(bodyParser.urlencoded({ extended: true }))// Middleware for parsing URL-encoded form data (e.g., HTML forms)
+//Form se jo data aaye, usko read karke req.body me daal do
+//ager ya na hu tu req.body undefined aye ga
+app.use(bodyParser.urlencoded({ extended: true }))
 //middlewere to wrap user with req
  app.use((req,res,next)=>{
    userModel.user.findById("69e49ed2823ade7a42341602").then((dbuser)=>{
@@ -36,6 +43,7 @@ app.use('/admin', adminRoute.route);
 app.use(cartRoutes.cart)
 
 app.use(orderRoutes.order);
+app.use(authRoutes);
 app.use('/', error404);
 mongoose.connect(`mongodb+srv://${process.env.user}:${process.env.password}@cluster0.jvimlwf.mongodb.net/${process.env.database}`).then((result) => {
     console.log("connection successful")

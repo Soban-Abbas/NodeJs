@@ -49,7 +49,8 @@ exports.getOrder = (req, res, next) => {
     res.render("user/orders", {
       pageTitle: "orders",
       url: req.url,
-      orders: orders
+      orders: orders,
+      AuthenticUser: req.cookies.isvalid
 
     })
   })

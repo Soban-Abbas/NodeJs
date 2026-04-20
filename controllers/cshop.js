@@ -9,7 +9,8 @@ exports.fetchProduct = (req, res, next) => {
     res.render("user/product-detail", {
       productArray: product,
       pageTitle: "Details",
-      url: req.url
+      url: req.url,
+       AuthenticUser: req.cookies.isvalid
     })
   }).catch((err) => {
     console.log(err)
@@ -23,7 +24,8 @@ exports.fetchSaleProducts = (req, res, next) => {
     res.render("user/index", {
       productArray: product,
       pageTitle: "Sale",
-      url: req.url
+      url: req.url,
+      AuthenticUser: req.cookies.isvalid
     })
   }).catch((err) => {
     console.log(err)
