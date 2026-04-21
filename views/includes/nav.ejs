@@ -11,7 +11,7 @@
                         href="/post-order">Orders</a></li>
 
 
-                <% if(AuthenticUser){ %>
+                <% if(AuthenticUser!==undefined && AuthenticUser){ %>
                     <li class="main-header__item"><a class="<%= url==='/admin/add-product'? 'active':'' %>"
                         href="/admin/add-product">Add Product</a></li>
                 <li class="main-header__item"><a class="<%= url==='/admin/product-list'? 'active':'' %>" href="/admin/product-list">Product-List</a></li>

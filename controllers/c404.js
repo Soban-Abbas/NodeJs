@@ -3,6 +3,7 @@ const error404=(req,res,next)=>{
         {
             pageTitle:404,
             url:req.url,
+            AuthenticUser:false
         });
 }
 

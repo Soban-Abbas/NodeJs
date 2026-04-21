@@ -4,13 +4,13 @@ const productModel = require("../models/product.js");
 
 
 exports.fetchProduct = (req, res, next) => {
-
+ 
   productModel.product.find({}).then((product) => {
     res.render("user/product-detail", {
       productArray: product,
       pageTitle: "Details",
       url: req.url,
-       AuthenticUser: req.cookies.isvalid
+      AuthenticUser: req.cookies.isvalid
     })
   }).catch((err) => {
     console.log(err)
@@ -19,7 +19,9 @@ exports.fetchProduct = (req, res, next) => {
 }
 
 exports.fetchSaleProducts = (req, res, next) => {
-
+  console.log(req.protocol);
+console.log(req.cookies);
+  console.log(req.headers.cookie);
   productModel.product.find({}).then((product) => {
     res.render("user/index", {
       productArray: product,

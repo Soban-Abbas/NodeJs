@@ -7,9 +7,7 @@ exports.getLogin =(req,res,next)=>{
     })
 }
 exports.postLogin=(req,res,next)=>{
-    res.cookie('isvalid','true',{
-        httpOnly:true,
-        maxAge:(24*60*60)*1000
-    })
+    
+    res.setHeader('set-cookie', ['a=1', 'isvalid=true; Max-Age=20; Secure']);
     res.redirect('/');
 }
