@@ -19,15 +19,13 @@ exports.fetchProduct = (req, res, next) => {
 }
 
 exports.fetchSaleProducts = (req, res, next) => {
-  console.log(req.protocol);
-console.log(req.cookies);
-  console.log(req.headers.cookie);
+ console.log(req.session.isvalid);
   productModel.product.find({}).then((product) => {
     res.render("user/index", {
       productArray: product,
       pageTitle: "Sale",
       url: req.url,
-      AuthenticUser: req.cookies.isvalid
+      AuthenticUser: req.session.isvalid
     })
   }).catch((err) => {
     console.log(err)

@@ -1,13 +1,18 @@
 exports.getLogin =(req,res,next)=>{
+
+req.session.isvalid=false
+    console.log(req.session.isvalid)
     res.render('auth/login',{
         pageTitle:'Login',
         url:req.url,
-        AuthenticUser:false
+        AuthenticUser:req.session.isvalid
 
     })
+
 }
 exports.postLogin=(req,res,next)=>{
     
-    res.setHeader('set-cookie', ['a=1', 'isvalid=true; Max-Age=20; Secure']);
+    req.session.isvalid=true
+    
     res.redirect('/');
 }
