@@ -50,7 +50,7 @@ exports.getOrder = (req, res, next) => {
       pageTitle: "orders",
       url: req.url,
       orders: orders,
-      AuthenticUser: req.cookies.isvalid
+      AuthenticUser: req.session.isvalid
 
     })
   })

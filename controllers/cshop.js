@@ -10,7 +10,7 @@ exports.fetchProduct = (req, res, next) => {
       productArray: product,
       pageTitle: "Details",
       url: req.url,
-      AuthenticUser: req.cookies.isvalid
+      AuthenticUser: req.session.isvalid
     })
   }).catch((err) => {
     console.log(err)
@@ -19,7 +19,8 @@ exports.fetchProduct = (req, res, next) => {
 }
 
 exports.fetchSaleProducts = (req, res, next) => {
- console.log(req.session.isvalid);
+//  console.log(req.user)
+ console.log(req.session.userId)
   productModel.product.find({}).then((product) => {
     res.render("user/index", {
       productArray: product,

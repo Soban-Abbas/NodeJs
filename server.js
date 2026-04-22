@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const session = require('express-session')
 const MongoStore = require('connect-mongo').default;
-console.log(MongoStore)
+//console.log(MongoStore)
 //to get functions name that the impoted class includes
 //console.log(Object.getOwnPropertyNames(MongoStore))
 const mongoose = require("mongoose");
@@ -44,27 +44,25 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false,
-    cookie: {
-        maxAge: 5 * 60 * 1000//5 mint bad browser sy data ktaham hu jaiy ga cookie remove hu jaiy ge
-    },
-    store:  MongoStore.create({
-        mongoUrl: MONGODB_URL,
-        ttl: 6 * 60,// 6 mint bad db sy data remove hu jaiy ga session remove hu jaiy ga 
+    store: MongoStore.create({
+        mongoUrl: MONGODB_URL, 
         collectionName: 'sessions'
     })
 }))
 
+app.use(async(req,res,next)=>{
+    if(!req.session.userId){
+        return next()
+    }
+   try{ let user = await userModel.user.findById('69e49ed2823ade7a42341602');
+    req.user=user
+    next()
+   }catch(err){
+    next(err)
+   }
+})
 
 //middlewere to wrap user with req
-app.use((req, res, next) => {
-    userModel.user.findById("69e49ed2823ade7a42341602").then((dbuser) => {
-        req.user = dbuser
-        //  console.log(req.user)
-        next()
-    }).catch((err) => {
-        console.log(err)
-    })
-})
 app.use(shop.shopi);
 app.use('/admin', adminRoute.route);
 app.use(cartRoutes.cart)

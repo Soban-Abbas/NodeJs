@@ -3,10 +3,8 @@
 //const productModel = require("../models/product")
 const product = require("../models/product")
 const usermodel = require("../models/user")
-
-exports.addToCart = (req, res, next) => {
-
-    let productInCart = req.user.cart.items.findIndex(item => {
+exports.addToCart =async(req, res, next) => {
+ let productInCart = req.user.cart.items.findIndex(item => {
         return item.productId.toString() === req.params.productID.toString()
     })
 
@@ -60,7 +58,7 @@ exports.addToCart = (req, res, next) => {
 
 
 exports.cart = (req, res, next) => {
-
+console.log(req.user)
     req.user.populate({
         path: 'cart.items.productId',
 
@@ -81,7 +79,7 @@ exports.cart = (req, res, next) => {
             productArray: structureArray,
             grandTotal: 1000,
             url: "/cart",
-            AuthenticUser: req.cookies.isvalid
+            AuthenticUser: req.session.isvalid
         })
     }).catch((err) => {
         console.log(err)
