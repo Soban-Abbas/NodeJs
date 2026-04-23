@@ -44,7 +44,8 @@ exports.details = (req, res, next) => {
     res.render("user/product-detail", {
       pageTitle: product.title,
       url: "",
-      productArray: [product]
+      productArray: [product],
+      AuthenticUser:req.session.isvalid
     })
   }).catch((err) => {
     console.log(err);
