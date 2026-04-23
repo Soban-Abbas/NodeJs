@@ -20,6 +20,7 @@ exports.postLogin=(req,res,next)=>{
         userModel.user.findById("69e49ed2823ade7a42341602").then((dbuser) => {
            // console.log(dbuser)
             req.session.userId = dbuser._id
+            
             //  console.log(req.user)
             res.redirect('/');
         }).catch((err) => {
@@ -27,4 +28,14 @@ exports.postLogin=(req,res,next)=>{
         })
     
   
+}
+
+exports.postLogout=(req,res,next)=>{
+    req.session.destroy((err)=>{
+        if(err){
+          return  console.log("Could not logout")
+        }
+        console.log("logout Successfull")
+        res.redirect('/login')
+    })
 }

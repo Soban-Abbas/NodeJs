@@ -59,6 +59,11 @@ exports.addToCart =async(req, res, next) => {
 
 exports.cart = (req, res, next) => {
 console.log(req.user)
+if(!req.user){
+    if (!req.user) {
+        res.redirect("404")
+    }
+}
     req.user.populate({
         path: 'cart.items.productId',
 

@@ -41,6 +41,10 @@ exports.postOrder = (req, res, next) => {
 
 }
 exports.getOrder = (req, res, next) => {
+
+  if (!req.user) {
+    res.redirect("404")
+  }
   console.log(req.user);
     
   let user_id =req.user._id;

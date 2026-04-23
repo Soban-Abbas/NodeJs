@@ -44,9 +44,12 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false,
+    rolling:true,//har reqper cookies ka timer reset hu jaiy ga and session ka b tu mujy exact ager koie req huia os ky 10 mint tak kie enevt nahi tu cookie expire
+    cookie:{maxAge:10*60*1000},
     store: MongoStore.create({
         mongoUrl: MONGODB_URL, 
-        collectionName: 'sessions'
+        collectionName: 'sessions',
+        ttl:10*60
     })
 }))
 

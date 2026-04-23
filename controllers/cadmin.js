@@ -8,7 +8,8 @@ const admingetProduct = (req, res, next) => {
     url: "/admin" + req.url,
     pageTitle: "admin-page",
     edit: false,
-    product: false
+    product: false,
+    AuthenticUser:req.session.isvalid
   });
 }
 
@@ -19,7 +20,8 @@ const adminPostProduct = (req, res, next) => {
     price: req.body.price,
     image: req.body.image,
     discription: req.body.discription,
-    userId:req.user
+    userId:req.user,
+    
   })
   p.save().then((result) => {
     res.redirect("/admin/product-list")
@@ -41,7 +43,8 @@ const productList = (req, res, next) => {
     res.render("admin/products", {
       pageTitle: "Admin-Products",
       url: "/admin" + req.url,
-      productArray: product
+      productArray: product,
+      AuthenticUser: req.session.isvalid
     })
   }).catch((err) => {
     console.log(err)

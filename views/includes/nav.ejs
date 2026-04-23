@@ -18,10 +18,27 @@
                     <%}%>
             </ul>
             <ul class="main-header__item-list">
+
+               <%if(!AuthenticUser){%>
                 <li class="main-header__item">
                     <a class="<%= url==='/login'? 'active':'' %>" href="/login">Login</a>
                 </li>
+                <%}%>
+
+
+
+                <%if(AuthenticUser!==undefined && AuthenticUser){%>
+                
+                    <li class="main-header__item">
+                        <form class="login-form" action="/logout" method="post">
+                            <button class="btn" type="submit">Logout</button>
+                        </form>
+                    </li>
+                    <%}%>
             </ul>
+
+           
+                    
 
         </nav>
     </header>
