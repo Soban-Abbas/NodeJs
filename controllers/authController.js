@@ -1,11 +1,11 @@
 const userModel = require("../models/user")
-
+const bcrypt = require('bcrypt');
 
 exports.getLogin = (req, res, next) => {
 
     let message = req.session.errormessage;
     req.session.errormessage = '';
-    
+
     // console.log(req.session.isvalid)
     res.render('auth/login', {
         pageTitle: 'Login',
@@ -25,16 +25,22 @@ exports.postLogin = async (req, res, next) => {
 
     try {
 
-        let userexist = await userModel.user.findOne({ email: req.body.email })
-        if (!userexist || userexist.password!==req.body.password) {
+        let userexist = await userModel.user.findOne({ email: req.body.email.trim().toLowerCase() })
+        
+        if (!userexist) {
             req.session.errormessage = "Wrong Email or Password";
             return res.redirect('/login')
         }
-    
-            req.session.userId=userexist._id;
-            req.session.isLogin=true
-            res.redirect('/')
-        
+        const comparePasswordTohash = await bcrypt.compare(req.body.password, userexist.password)
+        if(!comparePasswordTohash){
+            req.session.errormessage = "Wrong Email or Password";
+            return res.redirect('/login')
+        }
+
+        req.session.userId = userexist._id;
+        req.session.isLogin = true
+        res.redirect('/')
+
 
     } catch (error) {
         console.log(error)
@@ -64,6 +70,7 @@ exports.postLogout = (req, res, next) => {
         if (err) {
             return console.log("Could not logout")
         }
+        res.clearCookie('connect.sid');
         console.log("logout Successfull")
         res.redirect('/login')
     })
@@ -87,16 +94,16 @@ exports.postSignup = async (req, res, next) => {
             return res.redirect('/signup');
         }
         let email = req.body.email;
-
+        email = email.trim().toLowerCase();
         const existEmail = await userModel.user.findOne({ email });
         if (existEmail) {
             req.session.errormessage = "Email Alredy Registered";
             return res.redirect('/signup')
         }
-
+        const encryptedPassword = await bcrypt.hash(req.body.password, 6)
         const newUser = new userModel.user({
-            email: req.body.email,
-            password: req.body.password,
+            email: email,
+            password: encryptedPassword,
             cart: { items: [] }
         })
 

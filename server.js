@@ -75,19 +75,19 @@ app.use(authRoutes);
 app.use('/', error404);
 mongoose.connect(MONGODB_URL).then((result) => {
     console.log("connection successful")
-    userModel.user.findOne({}).then((user) => {
-        if (!user) {
-            const user = new userModel.user({
-                name: "Ali",
-                email: "ali@gmail.com",
-                cart: {
-                    items: []
-                }
-            });
-            user.save()
-        }
-        app.listen(3000);
-    })
+    // userModel.user.findOne({}).then((user) => {
+    //     if (!user) {
+    //         const user = new userModel.user({
+    //             name: "Ali",
+    //             email: "ali@gmail.com",
+    //             cart: {
+    //                 items: []
+    //             }
+    //         });
+    //         user.save()
+    //     }
+     app.listen(3000);
+    // })
 
 }).catch((err) => {
     console.log(err);
