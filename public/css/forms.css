@@ -1,3 +1,4 @@
+
 .form-control {
     margin: 1rem 0;
 }
@@ -17,4 +18,15 @@
 
 .form-control input:focus {
     outline-color: #00695c;
+}
+.error-message{
+
+
+color:white;
+background:red;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 50px;
+/* border-radius: 10px; */
 }

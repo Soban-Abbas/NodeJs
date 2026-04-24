@@ -79,7 +79,7 @@ exports.cart = (req, res, next) => {
             productArray: structureArray,
             grandTotal: 1000,
             url: "/cart",
-            AuthenticUser: req.session.isvalid
+            AuthenticUser: req.session.isLogin
         })
     }).catch((err) => {
         console.log(err)

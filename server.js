@@ -57,7 +57,7 @@ app.use(async(req,res,next)=>{
     if(!req.session.userId){
         return next()
     }
-   try{ let user = await userModel.user.findById('69e49ed2823ade7a42341602');
+   try{ let user = await userModel.user.findById(req.session.userId);
     req.user=user
     next()
    }catch(err){

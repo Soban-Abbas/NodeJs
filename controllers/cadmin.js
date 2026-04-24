@@ -9,7 +9,7 @@ const admingetProduct = (req, res, next) => {
     pageTitle: "admin-page",
     edit: false,
     product: false,
-    AuthenticUser:req.session.isvalid
+    AuthenticUser:req.session.isLogin
   });
 }
 
@@ -44,7 +44,7 @@ const productList = (req, res, next) => {
       pageTitle: "Admin-Products",
       url: "/admin" + req.url,
       productArray: product,
-      AuthenticUser: req.session.isvalid
+      AuthenticUser: req.session.isLogin
     })
   }).catch((err) => {
     console.log(err)

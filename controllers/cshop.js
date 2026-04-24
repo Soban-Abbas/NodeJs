@@ -10,7 +10,7 @@ exports.fetchProduct = (req, res, next) => {
       productArray: product,
       pageTitle: "Details",
       url: req.url,
-      AuthenticUser: req.session.isvalid
+      AuthenticUser: req.session.isLogin
     })
   }).catch((err) => {
     console.log(err)
@@ -26,7 +26,7 @@ exports.fetchSaleProducts = (req, res, next) => {
       productArray: product,
       pageTitle: "Sale",
       url: req.url,
-      AuthenticUser: req.session.isvalid
+      AuthenticUser: req.session.isLogin
     })
   }).catch((err) => {
     console.log(err)
@@ -45,7 +45,7 @@ exports.details = (req, res, next) => {
       pageTitle: product.title,
       url: "",
       productArray: [product],
-      AuthenticUser:req.session.isvalid
+      AuthenticUser:req.session.isLogin
     })
   }).catch((err) => {
     console.log(err);

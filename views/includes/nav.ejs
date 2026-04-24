@@ -6,40 +6,90 @@
                 <li class="main-header__item"><a class="<%= url==='/all-products'? 'active':'' %>"
                         href="/all-products">All
                         Products</a></li>
-                        <% if(AuthenticUser!==undefined && AuthenticUser){ %>
-                <li class="main-header__item"><a class="<%= url==='/cart'? 'active':'' %>" href="/cart">Cart</a></li>
-                <li class="main-header__item"><a class="<%= url==='/post-order'? 'active':'' %>"
-                        href="/post-order">Orders</a></li>
+                <% if(AuthenticUser!==undefined && AuthenticUser){ %>
+                    <li class="main-header__item"><a class="<%= url==='/cart'? 'active':'' %>" href="/cart">Cart</a>
+                    </li>
+                    <li class="main-header__item"><a class="<%= url==='/post-order'? 'active':'' %>"
+                            href="/post-order">Orders</a></li>
 
 
-               
+
                     <li class="main-header__item"><a class="<%= url==='/admin/add-product'? 'active':'' %>"
-                        href="/admin/add-product">Add Product</a></li>
-                <li class="main-header__item"><a class="<%= url==='/admin/product-list'? 'active':'' %>" href="/admin/product-list">Product-List</a></li>
+                            href="/admin/add-product">Add Product</a></li>
+                    <li class="main-header__item"><a class="<%= url==='/admin/product-list'? 'active':'' %>"
+                            href="/admin/product-list">Product-List</a></li>
                     <%}%>
             </ul>
             <ul class="main-header__item-list">
 
-               <%if(!AuthenticUser){%>
-                <li class="main-header__item">
-                    <a class="<%= url==='/login'? 'active':'' %>" href="/login">Login</a>
-                </li>
-                <%}%>
-
-
-
-                <%if(AuthenticUser!==undefined && AuthenticUser){%>
-                
+                <%if(!AuthenticUser){%>
                     <li class="main-header__item">
-                        <form class="login-form" action="/logout" method="post">
-                            <button class="btn" type="submit">Logout</button>
-                        </form>
+                        <a class="<%= url==='/login'? 'active':'' %>" href="/login">Login</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a class="<%= url==='/signup'? 'active':'' %>" href="/signup">Signup</a>
                     </li>
                     <%}%>
+
+
+
+                        <%if(AuthenticUser!==undefined && AuthenticUser){%>
+
+                            <li class="main-header__item">
+                                <form class="login-form" action="/logout" method="post">
+                                    <button class="btn" type="submit">Logout</button>
+                                </form>
+                            </li>
+                            <%}%>
             </ul>
 
-           
-                    
+
+
 
         </nav>
+
+<!-- <nav class="mobile-nav">
+    <ul class="mobile-nav__item-list">
+        <li class="mobile-nav__item">
+            <a class="<%= url === '/' ? 'active' : '' %>" href="/">Shop</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= url==='/all-products'? 'active':'' %>" href="/all-products">All
+                Products</a>
+        </li>
+        <% if (AuthenticUser) { %>
+            <li class="mobile-nav__item">
+                <a class="<%= url==='/cart'? 'active':'' %>" href="/cart">Cart</a>
+            </li>
+            <li class="mobile-nav__item">
+                "><a class="<%= url==='/post-order'? 'active':'' %>" href="/post-order">Orders</a>
+            </li>
+            <li class="mobile-nav__item">
+                <a class="<%= url==='/admin/add-product'? 'active':'' %>" href="/admin/add-product">Add Product</a>
+            </li>
+            <li class="mobile-nav__item">
+                <a class="<%= url==='/admin/product-list'? 'active':'' %>" href="/admin/product-list">Product-List</a>
+            </li>
+            <% } %>
+                <% if (!AuthenticUser) { %>
+                    <li class="mobile-nav__item">
+                        <a class="<%= url === '/login' ? 'active' : '' %>" href="/login">Login</a>
+                    </li>
+                    <li class="mobile-nav__item">
+                        <a class="<%= url === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
+                    </li>
+                    <% } else { %>
+                        <li class="mobile-nav__item">
+                            <form action="/logout" method="post">
+                                <button type="submit">Logout</button>
+                            </form>
+                        </li>
+                        <% } %>
+    </ul>
+</nav> -->
+
     </header>
+
+
+
+

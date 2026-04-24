@@ -51,7 +51,7 @@ exports.getOrder = (req, res, next) => {
       pageTitle: "orders",
       url: req.url,
       orders: orders,
-      AuthenticUser: req.session.isvalid
+      AuthenticUser: req.session.isLogin
 
     })
   })
