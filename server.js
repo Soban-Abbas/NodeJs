@@ -1,12 +1,15 @@
 const express = require('express');
 const app = express();
+require('dotenv').config()
 const session = require('express-session')
 const MongoStore = require('connect-mongo').default;
+var flash = require('express-flash-messages')
+
 //console.log(MongoStore)
 //to get functions name that the impoted class includes
 //console.log(Object.getOwnPropertyNames(MongoStore))
 const mongoose = require("mongoose");
-require('dotenv').config()
+
 const MONGODB_URL = `mongodb+srv://${process.env.user}:${process.env.password}@cluster0.jvimlwf.mongodb.net/${process.env.database}`
 
 const cookie_parser = require("cookie-parser")
@@ -52,6 +55,7 @@ app.use(session({
         ttl:10*60
     })
 }))
+app.use(flash())
 
 app.use(async(req,res,next)=>{
     if(!req.session.userId){

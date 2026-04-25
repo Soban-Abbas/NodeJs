@@ -1,10 +1,12 @@
+
 const userModel = require("../models/user")
 const bcrypt = require('bcrypt');
-
+const emailTransporter = require("../util/sendemail");
 exports.getLogin = (req, res, next) => {
 
-    let message = req.session.errormessage;
+    let message = req.session.errormessage
     req.session.errormessage = '';
+
 
     // console.log(req.session.isvalid)
     res.render('auth/login', {
@@ -21,25 +23,29 @@ exports.postLogin = async (req, res, next) => {
     // req.session.isvalid = true
 
 
+
     console.log(req.body)
 
     try {
 
         let userexist = await userModel.user.findOne({ email: req.body.email.trim().toLowerCase() })
-        
+
         if (!userexist) {
-            req.session.errormessage = "Wrong Email or Password";
+
+            req.session.errormessage = "Wrong Email or Password"
             return res.redirect('/login')
         }
         const comparePasswordTohash = await bcrypt.compare(req.body.password, userexist.password)
-        if(!comparePasswordTohash){
-            req.session.errormessage = "Wrong Email or Password";
+        if (!comparePasswordTohash) {
+            req.session.errormessage = "Wrong Email or Password"
             return res.redirect('/login')
         }
 
         req.session.userId = userexist._id;
         req.session.isLogin = true
-        res.redirect('/')
+        let redirectUrl = req.session.returnTo || '/'
+        delete req.session.returnTo
+        res.redirect(redirectUrl)
 
 
     } catch (error) {
@@ -107,7 +113,48 @@ exports.postSignup = async (req, res, next) => {
             cart: { items: [] }
         })
 
+
         await newUser.save()
+
+
+
+        const info = await emailTransporter.transporter.sendMail({
+            from: ` Shop Team <${process.env.emailuser}>`, // sender address
+            to: `${email}`, // list of recipients
+            subject: "WellCome To Shop", // subject line
+            text: "You Have Successfuly SignUp At Shop", // plain text body
+            html: `
+  <div style="font-family: Arial; background:#f4f4f4; padding:20px;">
+    <div style="max-width:600px; margin:auto; background:white; padding:20px; border-radius:8px;">
+      
+      <h2 style="color:#333;">Welcome to Shop 🎉</h2>
+
+      <p style="color:#555;">
+        Your account has been created successfully.
+      </p>
+
+      <p style="color:#555;">
+        You can now login and start using the app.
+      </p>
+
+      <a href="http://localhost:3000/login"
+         style="display:inline-block; padding:10px 20px; background:#007bff; color:white; text-decoration:none; border-radius:5px;">
+         Login Now
+      </a>
+
+      <hr style="margin:20px 0;" />
+
+      <p style="font-size:12px; color:#999;">
+        If you didn’t create this account, ignore this email.
+      </p>
+
+    </div>
+  </div>
+` // HTML body
+        });
+
+
+
         console.log('user register')
         res.redirect('/login')
 

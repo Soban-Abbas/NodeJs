@@ -19,8 +19,7 @@ exports.fetchProduct = (req, res, next) => {
 }
 
 exports.fetchSaleProducts = (req, res, next) => {
-//  console.log(req.user)
- console.log(req.session.userId)
+
   productModel.product.find({}).then((product) => {
     res.render("user/index", {
       productArray: product,
