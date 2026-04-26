@@ -23,6 +23,9 @@
                                 <h2 class="product__price"><%= book.price%></h2>
                                 <p class="product__description"><%= book.discription %></p>
                             </div>
+
+<%if(userId.toString()===book.userId.toString()){%>
+
                             <div class="card__actions">
                               <a href="/admin/edit-product/<%= book._id %>?edit=true"><button class="btn">Edit</button></a>  
                               <form action="/admin/delete-product" method="POST">
@@ -31,6 +34,7 @@
                               </form>
                                
                             </div>
+                            <%}%>
                             
                         </article>
                     </div>

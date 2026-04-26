@@ -9,7 +9,7 @@ const admingetProduct = (req, res, next) => {
     pageTitle: "admin-page",
     edit: false,
     product: false,
-    AuthenticUser:req.session.isLogin
+    AuthenticUser: req.session.isLogin
   });
 }
 
@@ -20,8 +20,8 @@ const adminPostProduct = (req, res, next) => {
     price: req.body.price,
     image: req.body.image,
     discription: req.body.discription,
-    userId:req.user,
-    
+    userId: req.user,
+
   })
   p.save().then((result) => {
     res.redirect("/admin/product-list")
@@ -39,12 +39,18 @@ const adminPostProduct = (req, res, next) => {
 }
 const productList = (req, res, next) => {
 
+
+  
+  let editError = req.query.error || false;
+  req.query.error = null;
   productModel.product.find({}).then((product) => {
     res.render("admin/products", {
       pageTitle: "Admin-Products",
       url: "/admin" + req.url,
       productArray: product,
-      AuthenticUser: req.session.isLogin
+      AuthenticUser: req.session.isLogin,
+      errorMessage: editError || false,
+      userId:req.user._id
     })
   }).catch((err) => {
     console.log(err)
@@ -58,13 +64,17 @@ const productEdit = (req, res, next) => {
 
     let _id = req.params.productID;
 
-    productModel.product.findOne({ _id }).exec().then((product) => {
-      //                  console.log(product);
+    productModel.product.findOne({ _id: _id, userId: req.user._id }).exec().then((product) => {
+
+      if (!product) {
+        return res.redirect("/admin/product-list?error=notallowed")
+      }
       res.render("admin/edit-product", {
         pageTitle: "Edit Product",
         url: "/admin/add-product",
         edit: true,
-        product: product
+        product: product,
+        AuthenticUser: req.session.isLogin
       })
     }).catch((err) => {
       console.log(err);
@@ -78,17 +88,24 @@ const productEdit = (req, res, next) => {
 }
 const postEditProduct = (req, res, next) => {
   const _id = req.body.productID;
-  productModel.product.findOne({ _id }).updateOne({
-    title: req.body.title,
-    price: req.body.price,
-    image: req.body.image,
-    discription: req.body.discription
-  }).then((result) => {
-    // console.log("updated Successfully")
-    res.redirect("/admin/product-list")
-  }).catch((err) => {
-    console.log(err);
-  });
+  productModel.product.updateOne(
+    { _id, userId: req.user._id },
+    {
+      title: req.body.title,
+      price: req.body.price,
+      image: req.body.image,
+      discription: req.body.discription
+    }).then((result) => {
+      // console.log("updated Successfully")
+
+      console.log(result)
+      if (result.matchedCount === 0 || result.matchedCount) {
+        return res.redirect("/admin/product-list?error=notallowed")
+      }
+      res.redirect("/admin/product-list")
+    }).catch((err) => {
+      console.log(err);
+    });
 
 }
 //_____better aproach to update_______
@@ -110,7 +127,10 @@ const postEditProduct = (req, res, next) => {
 
 const deleteProduct = (req, res, next) => {
   let _id = req.body.productID;
-  productModel.product.deleteOne({ _id }).then(() => {
+  productModel.product.deleteOne({ _id: _id, userId: req.user._id }).then((result) => {
+    if (result.deletedCount === 0) {
+      return res.redirect("/admin/product-list?error=notallowed")
+    }
     res.redirect('/admin/product-list');
   }).catch((err) => {
     console.log(err)
