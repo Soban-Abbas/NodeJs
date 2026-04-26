@@ -22,7 +22,9 @@ items:[
         quantity:{type:Number,required:true}
     }
 ],
-    }
+    },
+    token:String,
+    tokenExpiry:Date
 })
 
 const user=mongoose.model('user',userSchema);

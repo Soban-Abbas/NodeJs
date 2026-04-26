@@ -4,7 +4,7 @@ require('dotenv').config()
 const session = require('express-session')
 const MongoStore = require('connect-mongo').default;
 var flash = require('express-flash-messages')
-
+const passwordRoutes=require("./routes/passwords.js")
 //console.log(MongoStore)
 //to get functions name that the impoted class includes
 //console.log(Object.getOwnPropertyNames(MongoStore))
@@ -73,7 +73,7 @@ app.use(async(req,res,next)=>{
 app.use(shop.shopi);
 app.use('/admin', adminRoute.route);
 app.use(cartRoutes.cart)
-
+app.use(passwordRoutes)
 app.use(orderRoutes.order);
 app.use(authRoutes);
 app.use('/', error404);
