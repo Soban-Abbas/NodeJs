@@ -3,7 +3,8 @@ const app = express();
 require('dotenv').config()
 const session = require('express-session')
 const MongoStore = require('connect-mongo').default;
-var flash = require('express-flash-messages')
+
+
 const passwordRoutes=require("./routes/passwords.js")
 //console.log(MongoStore)
 //to get functions name that the impoted class includes
@@ -55,7 +56,7 @@ app.use(session({
         ttl:10*60
     })
 }))
-app.use(flash())
+
 
 app.use(async(req,res,next)=>{
     if(!req.session.userId){
@@ -68,7 +69,6 @@ app.use(async(req,res,next)=>{
     next(err)
    }
 })
-
 //middlewere to wrap user with req
 app.use(shop.shopi);
 app.use('/admin', adminRoute.route);

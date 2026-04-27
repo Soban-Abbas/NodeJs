@@ -2,6 +2,7 @@
 const userModel = require("../models/user")
 const bcrypt = require('bcrypt');
 const emailTransporter = require("../util/sendemail");
+const { validationResult }=require("express-validator")
 exports.getLogin = (req, res, next) => {
 
     let message = req.session.errormessage
@@ -27,7 +28,7 @@ exports.postLogin = async (req, res, next) => {
     console.log(req.body)
 
     try {
-
+    
         let userexist = await userModel.user.findOne({ email: req.body.email.trim().toLowerCase() })
 
         if (!userexist) {
@@ -90,22 +91,44 @@ exports.getSignup = (req, res, next) => {
         url: req.url,
         AuthenticUser: req.session.isvalid,
         errorMessage: message || null,
+        oldValues:{}
     })
 }
 
 exports.postSignup = async (req, res, next) => {
     try {
-        if (req.body.password !== req.body.confirm_password) {
-            req.session.errormessage = "password mismatch";
-            return res.redirect('/signup');
-        }
-        let email = req.body.email;
-        email = email.trim().toLowerCase();
-        const existEmail = await userModel.user.findOne({ email });
-        if (existEmail) {
-            req.session.errormessage = "Email Alredy Registered";
-            return res.redirect('/signup')
-        }
+
+        const errors = validationResult(req)
+        console.log(errors)
+      if(!errors.isEmpty()){
+     return  res.status(422).render("auth/signup",{
+        pageTitle:"Sign up",
+        url:req.url,
+         AuthenticUser:req.session.isvalid,
+         errorMessage:errors.mapped(),
+         oldValues:{
+            email:req.body.email,
+            password:req.body.password,
+            confirm_password:req.body.confirm_password
+         }
+
+     })
+      }
+
+//________this validation is  already done in validation before req reaches to contoler handler 
+
+
+        // if (req.body.password !== req.body.confirm_password) {
+        //     req.session.errormessage = "password mismatch";
+        //     return res.redirect('/signup');
+        // }
+         let email = req.body.email;
+         email = email.trim().toLowerCase();
+        // const existEmail = await userModel.user.findOne({ email });
+        // if (existEmail) {
+        //     req.session.errormessage = "Email Alredy Registered";
+        //     return res.redirect('/signup')
+        // }
         const encryptedPassword = await bcrypt.hash(req.body.password, 6)
         const newUser = new userModel.user({
             email: email,

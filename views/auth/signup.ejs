@@ -8,24 +8,39 @@
     <%- include("../includes/nav.ejs") %>
 
         <main>
-          <%if(errorMessage){%>
-            <div class="error-message"><%=errorMessage%></div>
-            <%}%>
-            <form class="login-form" action="/signup" method="POST">
+          <!-- <%if(errorMessage){%>
+            <div class="error-message"><%=errorMessage.email?.msg || errorMessage.password?.msg || errorMessage.confirm_password?.msg %></div>
+            <%}%> -->
+            <form class="login-form" action="/signup" method="POST" novalidate>
 
 
 
                 <div class="form-control">
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email">
+                    <input type="email" name="email" id="email" value="<%= oldValues?.email || '' %>">
+                    <% if (errorMessage?.email) { %>
+                        <p class="error-message">
+                            <%= errorMessage.email.msg %>
+                        </p>
+                        <% } %>
                 </div>
                 <div class="form-control">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password">
+                    <input type="password" name="password" id="password" value="<%=oldValues?.password || ''%>">
+                    <% if (errorMessage?.password) { %>
+                        <p class="error-message">
+                            <%= errorMessage.password.msg %>
+                        </p>
+                        <% } %>
                 </div>
                 <div class="form-control">
                     <label for="confirm-password">Confirm Password</label>
-                    <input type="password" name="confirm_password" id="confirm-password">
+                    <input type="password" name="confirm_password" id ="confirm-password" value="<%=oldValues?.confirm_password || '' %>">
+                    <% if (errorMessage?.confirm_password) { %>
+                        <p class="error-message">
+                            <%= errorMessage.confirm_password.msg %>
+                        </p>
+                        <% } %>
                 </div>
 
                 <button class="btn" type="submit">Signup</button>
