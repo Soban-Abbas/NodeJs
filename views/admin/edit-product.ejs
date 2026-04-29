@@ -6,32 +6,56 @@
     <%- include("../includes/nav.ejs") %>
 
         <main>
-            <form class="product-form" action= "<%= (edit)?'/admin/edit-product':'/admin/add-product'  %>" method="POST">
-            
-                <input type="hidden" name="productID" value="<%= (edit) ? product._id : null %>"   > 
-                
+            <form class="product-form" action="<%= (edit)?'/admin/edit-product':'/admin/add-product'  %>" method="POST">
+
+                <input type="hidden" name="productID" value="<%= (edit) ? product?._id : null %>">
+
 
                 <div class="form-control">
                     <label for="title">Title</label>
-                    <input type="text" name="title" id="title" value="<%if(product){%><%=product.title %><%}%>" >
+                    <input type="text" name="title" id="title"   value="<%=product?.title || oldValue?.title || '' %>">
+                    <%if(errorMessage?.title){%>
+                        <p class="error-message">
+                            <%=errorMessage?.title.msg%>
+                        </p>
+                        <%}%>
                 </div>
                 <div class="form-control">
                     <label for="price">Price</label>
-                    <input type="text" name="price" id="price" value="<%if(product){%><%=product.price %><%}%>">
+                    <input type="text" name="price" id="price"
+                        value="<%=product?.price || oldValue?.price || '' %>">
+                    <%if(errorMessage?.price){%>
+                        <p class="error-message">
+                            <%=errorMessage?.price.msg%>
+                        </p>
+                        <%}%>
+
                 </div>
                 <div class="form-control">
                     <label for="img">Image</label>
-                    <input type="url" name="image" id="img" value="<%if(product){%><%=product.image%><%}%>" >
+                    <input type="url" name="image" id="img"
+                         value="<%=product?.image || oldValue?.image || '' %>">
+                    <%if(errorMessage?.image){%>
+                        <p class="error-message">
+                            <%=errorMessage?.image.msg%>
+                        </p>
+                        <%}%>
                 </div>
                 <div class="form-control">
                     <label for="Dis">Description</label>
-                    <input type="text" name="discription" id="Dis" value="<%if(product){%><%=product.discription%><%}%>">
+                    <input type="text" name="discription" id="Dis"
+                        value="<%=product?.discription || oldValue?.discription || '' %>">
+                    <%if(errorMessage?.discription){%>
+                        <p class="error-message">
+                            <%=errorMessage?.discription.msg%>
+                        </p>
+                        <%}%>
                 </div>
-                 <% if(edit){ %>
+                <% if(edit){ %>
                     <button class="btn" type="submit">Update Product</button>
                     <% }else{ %>
-                <button class="btn" type="submit">Add Product</button>
-                <%} %>
+                        <button class="btn" type="submit">Add Product</button>
+                        <%} %>
             </form>
         </main>
 

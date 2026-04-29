@@ -2,19 +2,40 @@
 //const modelProduct = require("../models/product")
 //const dbconfigfile = require("../util/dbConfig");
 const productModel = require("../models/product")
-
+const { validationResult } = require("express-validator");
 const admingetProduct = (req, res, next) => {
+
+
+
   res.render("admin/edit-product", {
     url: "/admin" + req.url,
     pageTitle: "admin-page",
     edit: false,
     product: false,
+    oldValue:false,
+    errorMessage:false,
     AuthenticUser: req.session.isLogin
   });
 }
 
 const adminPostProduct = (req, res, next) => {
-
+  const error = validationResult(req);
+  if (!error.isEmpty()) {
+    return res.status(422).render("admin/edit-product",{
+      errorMessage:error.mapped(),
+      pageTitle: "Admin-Products",
+      url: "/admin" + req.url,
+      edit: false,
+      product: false,
+      AuthenticUser: req.session.isLogin,
+      oldValue:{
+        title:req.body.title,
+        price:req.body.price,
+        image:req.body.image,
+        discription:req.body.discription
+      }
+    })
+  }
   const p = new productModel.product({
     title: req.body.title,
     price: req.body.price,
@@ -74,7 +95,9 @@ const productEdit = (req, res, next) => {
         url: "/admin/add-product",
         edit: true,
         product: product,
-        AuthenticUser: req.session.isLogin
+        AuthenticUser: req.session.isLogin,
+        oldValue:false,
+        errorMessage:false
       })
     }).catch((err) => {
       console.log(err);
@@ -88,6 +111,30 @@ const productEdit = (req, res, next) => {
 }
 const postEditProduct = (req, res, next) => {
   const _id = req.body.productID;
+  console.log(_id);
+const error=validationResult(req);
+  if (!error.isEmpty()) {
+    return res.status(422).render("admin/edit-product", {
+      errorMessage: error.mapped(),
+      pageTitle: "Admin-Products",
+      url: "/admin" + req.url,
+      edit: true,
+      product: {
+        _id:_id
+      },
+      AuthenticUser: req.session.isLogin,
+      oldValue: {
+        title: req.body.title,
+        price: req.body.price,
+        image: req.body.image,
+        discription: req.body.discription
+      }
+    })
+  }
+
+
+
+ 
   productModel.product.updateOne(
     { _id, userId: req.user._id },
     {
@@ -99,9 +146,6 @@ const postEditProduct = (req, res, next) => {
       // console.log("updated Successfully")
 
       console.log(result)
-      if (result.matchedCount === 0 || result.matchedCount) {
-        return res.redirect("/admin/product-list?error=notallowed")
-      }
       res.redirect("/admin/product-list")
     }).catch((err) => {
       console.log(err);

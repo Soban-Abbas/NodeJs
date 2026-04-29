@@ -14,7 +14,8 @@ exports.getLogin = (req, res, next) => {
         pageTitle: 'Login',
         url: req.url,
         errorMessage: message || null,
-        AuthenticUser: req.session.isLogin || false
+        AuthenticUser: req.session.isLogin || false,
+        OldValues:{}
 
     })
 
@@ -25,21 +26,57 @@ exports.postLogin = async (req, res, next) => {
 
 
 
-    console.log(req.body)
+//    return console.log(req.body.email)
+let error=validationResult(req);
+if(!error.isEmpty()){
+    return res.status(422).render("auth/login",{
+        pageTitle:"Login",
+        url:req.url,
+        AuthenticUser:req.session.isvalid,
+        errorMessage:error.mapped(),
+        OldValues:{
+            email:req.body.email,
+            password:req.body.password
+        }
 
+    })
+}
     try {
     
-        let userexist = await userModel.user.findOne({ email: req.body.email.trim().toLowerCase() })
+        let userexist = await userModel.user.findOne({ email: req.body.email })
 
         if (!userexist) {
 
             req.session.errormessage = "Wrong Email or Password"
-            return res.redirect('/login')
+            return res.status(401).render("auth/login", {
+                pageTitle: "Login",
+                url: req.url,
+                AuthenticUser: req.session.isvalid,
+                errorMessage:  { email: req.session.errormessage }, 
+                OldValues: {
+                    email: req.body.email,
+                    password: req.body.password
+                }
+
+
+        })
         }
         const comparePasswordTohash = await bcrypt.compare(req.body.password, userexist.password)
         if (!comparePasswordTohash) {
-            req.session.errormessage = "Wrong Email or Password"
-            return res.redirect('/login')
+            req.session.errormessage = "Wrong Email or Password";
+                  return res.status(401).render("auth/login", {
+                      pageTitle: "Login",
+                      url: req.url,
+                      AuthenticUser: req.session.isvalid,
+                      errorMessage: { password: req.session.errormessage },
+                      OldValues: {
+                          email: req.body.email,
+                          password: req.body.password
+                      }
+
+
+                  })
+  
         }
 
         req.session.userId = userexist._id;
