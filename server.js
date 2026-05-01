@@ -13,7 +13,7 @@ const mongoose = require("mongoose");
 
 const MONGODB_URL = `mongodb+srv://${process.env.user}:${process.env.password}@cluster0.jvimlwf.mongodb.net/${process.env.database}`
 
-const cookie_parser = require("cookie-parser")
+//const cookie_parser = require("cookie-parser")
 //when usign session package we dont need cookies parser anymore
 //app.use(cookie_parser());
 const shop = require("./routes/shop.js")
