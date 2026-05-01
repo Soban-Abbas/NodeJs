@@ -98,17 +98,4 @@ project-root/
 
 ---
 
-# Application Routes
-
-## Authentication Routes
-
-| Method | Route   | Description   |
-| ------ | ------- | ------------- |
-| GET    | /login  | Login Page    |
-| POST   | /login  | Login User    |
-| GET    | /signup | Signup Page   |
-| POST   | /signup | Register User |
-| POST   | /logout | Logout User   |
-
----
 
